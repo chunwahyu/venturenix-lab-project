@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,7 +24,7 @@ public class CreateProductResponseDto {
     private String imageUrl;
 
     @JsonProperty("price")
-    private Double price;
+    private BigDecimal price;
 
     @JsonProperty("stock")
     private Integer stock;

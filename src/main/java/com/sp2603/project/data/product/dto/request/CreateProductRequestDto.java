@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -26,7 +28,7 @@ public class CreateProductRequestDto {
     @NotNull
     @PositiveOrZero
     @JsonProperty("price")
-    private Double price;
+    private BigDecimal price;
 
     @NotNull
     @PositiveOrZero

@@ -1,4 +1,4 @@
-package com.sp2603.project.data.product.domainObject.response;
+package com.sp2603.project.data.product.dto.response;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,11 +9,10 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProductResponseData {
+public class GetAllProductsResponseDto {
     private Integer pid;
     private String name;
-    private String description;
     private String imageUrl;
     private BigDecimal price;
-    private Integer stock;
+    private Boolean hasStock;
 }

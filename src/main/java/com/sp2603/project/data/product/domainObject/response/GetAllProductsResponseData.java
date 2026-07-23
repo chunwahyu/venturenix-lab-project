@@ -9,11 +9,10 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProductResponseData {
+public class GetAllProductsResponseData {
     private Integer pid;
     private String name;
-    private String description;
     private String imageUrl;
     private BigDecimal price;
-    private Integer stock;
+    private Boolean hasStock;
 }
