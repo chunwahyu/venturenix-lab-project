@@ -9,7 +9,19 @@ import org.jspecify.annotations.Nullable;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "product")
+@Table(
+        name = "product",
+        indexes = {
+                // Single-column index for fast product name searches/filtering
+                @Index(name = "index_product_name", columnList = "name"),
+
+                // Single-column index for sorting/filtering by price
+                @Index(name = "index_product_price", columnList = "price"),
+
+                // Composite index if you frequently query in-stock items sorted by price
+                @Index(name = "index_product_stock_price", columnList = "stock, price")
+        }
+)
 @Getter
 @Setter
 @NoArgsConstructor

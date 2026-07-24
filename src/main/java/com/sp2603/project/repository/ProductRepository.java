@@ -1,4 +1,4 @@
-package com.sp2603.project.repository.repository;
+package com.sp2603.project.repository;
 
 import com.sp2603.project.data.product.entity.ProductEntity;
 import org.springframework.data.jpa.repository.Query;

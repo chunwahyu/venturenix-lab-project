@@ -6,8 +6,9 @@ import com.sp2603.project.data.product.domainObject.response.GetAllProductsRespo
 import com.sp2603.project.data.product.domainObject.response.ProductResponseData;
 import com.sp2603.project.data.product.entity.ProductEntity;
 import com.sp2603.project.exception.product.ProductNotFoundException;
-import com.sp2603.project.mapper.product.ProductMapper;
-import com.sp2603.project.repository.repository.ProductRepository;
+import com.sp2603.project.mapper.product.ProductDataMapper;
+import com.sp2603.project.mapper.product.ProductEntityMapper;
+import com.sp2603.project.repository.ProductRepository;
 import com.sp2603.project.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,24 +21,26 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
     private final Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
     private final ProductRepository productRepository;
-    private final ProductMapper productMapper;
+    private final ProductDataMapper productDataMapper;
+    private final ProductEntityMapper productEntityMapper;
 
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductDataMapper productDataMapper, ProductEntityMapper productEntityMapper) {
         this.productRepository = productRepository;
-        this.productMapper = productMapper;
+        this.productDataMapper = productDataMapper;
+        this.productEntityMapper = productEntityMapper;
     }
 
     @Override
     public List<GetAllProductsResponseData> getAllProducts() {
         Iterable<ProductEntity> productEntityList = productRepository.findAll();
-        return productMapper.toGetAllProductsResponseDataList(productEntityList);
+        return productDataMapper.toGetAllProductsResponseDataList(productEntityList);
     }
 
     @Override
     public CreateProductResponseData createProduct(CreateProductRequestData createProductRequestData) {
-        ProductEntity productEntity = productMapper.toProductEntity(createProductRequestData);
+        ProductEntity productEntity = productEntityMapper.toProductEntity(createProductRequestData);
         productRepository.save(productEntity);
-        return productMapper.toCreateProductResponseData(productEntity);
+        return productDataMapper.toCreateProductResponseData(productEntity);
     }
 
     @Override
@@ -45,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             ProductEntity productEntity = getEntityByPid(pid);
 
-            return productMapper.toProductResponseData(productEntity);
+            return productDataMapper.toProductResponseData(productEntity);
 
         } catch (Exception exception) {
             log.warn("Get Product Failed: {}", exception.getMessage());

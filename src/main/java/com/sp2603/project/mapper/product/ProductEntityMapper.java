@@ -15,27 +15,7 @@ import org.mapstruct.Mapping;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface ProductMapper {
-
-    @Mapping(target = "hasStock", expression = "java(productEntity.getStock() != null && productEntity.getStock() > 0)")
-    GetAllProductsResponseData toGetAllProductsResponseData(ProductEntity productEntity);
-
-    List<GetAllProductsResponseData> toGetAllProductsResponseDataList(Iterable<ProductEntity> productEntityLst);
-
-    List<GetAllProductsResponseDto> toGetAllProductsResponseDtoList(List<GetAllProductsResponseData> getAllProductsResponseDataList);
-
-
-    CreateProductRequestData toCreateProductRequestData(CreateProductRequestDto createProductRequestDto);
-
+public interface ProductEntityMapper {
     @Mapping(target = "pid", ignore = true)
     ProductEntity toProductEntity(CreateProductRequestData createProductRequestData);
-
-    CreateProductResponseData toCreateProductResponseData(ProductEntity productEntity);
-
-    CreateProductResponseDto toCreateProductResponseDto(CreateProductResponseData createProductResponseData);
-
-
-    ProductResponseData toProductResponseData(ProductEntity productEntity);
-
-    ProductResponseDto toProductResponseDto(ProductResponseData productResponseData);
 }
