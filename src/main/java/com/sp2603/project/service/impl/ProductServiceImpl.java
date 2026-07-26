@@ -5,11 +5,13 @@ import com.sp2603.project.data.product.domainObject.response.CreateProductRespon
 import com.sp2603.project.data.product.domainObject.response.GetAllProductsResponseData;
 import com.sp2603.project.data.product.domainObject.response.ProductResponseData;
 import com.sp2603.project.data.product.entity.ProductEntity;
+import com.sp2603.project.exception.product.InsufficientStockException;
 import com.sp2603.project.exception.product.ProductNotFoundException;
 import com.sp2603.project.mapper.product.ProductDataMapper;
 import com.sp2603.project.mapper.product.ProductEntityMapper;
 import com.sp2603.project.repository.ProductRepository;
 import com.sp2603.project.service.ProductService;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -50,9 +52,9 @@ public class ProductServiceImpl implements ProductService {
 
             return productDataMapper.toProductResponseData(productEntity);
 
-        } catch (Exception exception) {
-            log.warn("Get Product Failed: {}", exception.getMessage());
-            throw exception;
+        } catch (ProductNotFoundException productNotFoundException) {
+            log.warn("Get Product Failed: {}", productNotFoundException.getMessage());
+            throw productNotFoundException;
         }
     }
 
@@ -61,9 +63,22 @@ public class ProductServiceImpl implements ProductService {
         Optional<ProductEntity> optionalProductEntity = productRepository.findByPid(pid);
 
         if(optionalProductEntity.isEmpty()) {
+            log.warn("Find Product Failed: {}", pid);
             throw new ProductNotFoundException(pid);
         }
 
         return optionalProductEntity.get();
+    }
+
+    @Transactional
+    @Override
+    public void reduceStock(Integer pid, Integer quantity) {
+        ProductEntity productEntity = getEntityByPid(pid);
+
+        if(productEntity.getStock() < quantity) {
+            throw new InsufficientStockException(quantity);
+        }
+
+        productEntity.setStock(productEntity.getStock() - quantity);
     }
 }

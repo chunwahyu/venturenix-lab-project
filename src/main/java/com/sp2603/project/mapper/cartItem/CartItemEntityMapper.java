@@ -10,5 +10,7 @@ import org.mapstruct.Mapping;
 public interface CartItemEntityMapper {
 
     @Mapping(target = "cid", ignore = true)
-    public CartItemEntity toCartItemEntity(UserEntity userEntity, ProductEntity productEntity, Integer quantity);
+    @Mapping(target = "product", source = "productEntity")
+    @Mapping(target = "user", source = "userEntity")
+    CartItemEntity toCartItemEntity(UserEntity userEntity, ProductEntity productEntity, Integer quantity);
 }

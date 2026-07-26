@@ -1,13 +1,9 @@
 package com.sp2603.project.data.user.entity;
 
-import com.sp2603.project.data.cartItem.entity.CartItemEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -22,9 +18,6 @@ public class UserEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, unique = false)
+    @Column(name = "firebase_uid", nullable = false, unique = true)
     private String firebaseUid;
-
-    //@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    //private List<CartItemEntity> cartItemEntityList = new ArrayList<>();
 }

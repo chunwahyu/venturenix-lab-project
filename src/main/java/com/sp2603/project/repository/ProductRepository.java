@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public interface ProductRepository extends CrudRepository<ProductEntity, Integer> {
+
     @Query(
             nativeQuery = true,
             value = "SELECT * FROM product WHERE pid=?1"

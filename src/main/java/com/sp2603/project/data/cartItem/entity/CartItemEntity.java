@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "cart_item")
+@Table(name = "cart_item", indexes = {
+        @Index(name = "index_cart_item_uid_pid", columnList = "uid, pid"),
+})
 @Getter
 @Setter
 @NoArgsConstructor

@@ -5,6 +5,7 @@ import com.sp2603.project.data.product.domainObject.response.CreateProductRespon
 import com.sp2603.project.data.product.domainObject.response.GetAllProductsResponseData;
 import com.sp2603.project.data.product.domainObject.response.ProductResponseData;
 import com.sp2603.project.data.product.entity.ProductEntity;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -17,4 +18,7 @@ public interface ProductService {
     ProductResponseData getProductByPid(Integer pid);
 
     ProductEntity getEntityByPid(Integer pid);
+
+    @Transactional
+    void reduceStock(Integer pid, Integer quantity);
 }

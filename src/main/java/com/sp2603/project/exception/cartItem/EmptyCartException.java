@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class InvalidQuantityException extends RuntimeException {
-    public InvalidQuantityException() {
-        super("Invalid Quantity");
+public class EmptyCartException extends RuntimeException {
+    public EmptyCartException() {
+        super("Empty Cart");
     }
 }

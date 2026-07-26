@@ -17,7 +17,7 @@ public interface UserDataMapper {
     @Mapping(target = "firebaseUid", expression = "java(jwt.getClaimAsString(\"user_id\"))")
     FirebaseUserData toFirebaseUserData(Jwt jwt);
 
-    UserResponseData toUserResponseData(UserEntity userEntity);
+    //UserResponseData toUserResponseData(UserEntity userEntity);
 
-    List<CartItemResponseData> toCartItemResponseDataList(List<UserEntity> userEntityList);
+    //List<CartItemResponseData> toCartItemResponseDataList(List<UserEntity> userEntityList);
 }
