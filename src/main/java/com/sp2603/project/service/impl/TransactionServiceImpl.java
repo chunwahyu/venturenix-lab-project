@@ -54,13 +54,14 @@ public class TransactionServiceImpl implements TransactionService {
 
         if(cartItemEntityList.isEmpty()) {
             log.warn("Empty Cart: {}", userEntity.getUid());
-            throw new EmptyCartException();
+            throw new EmptyCartException(userEntity.getUid());
         }
 
         TransactionEntity transactionEntity = transactionEntityMapper.toTransactionEntity(userEntity);
+
         transactionEntity = transactionRepository.save(transactionEntity);
 
-        for(CartItemEntity cartItemEntity: cartItemEntityList) {
+        /**for(CartItemEntity cartItemEntity: cartItemEntityList) {
             TransactionProductEntity transactionProductEntity = transactionProductService.createTransactionProduct(transactionEntity, cartItemEntity);
             transactionEntity.getTransactionProductEntityList().add(transactionProductEntity);
             transactionEntity.setTotal(
@@ -68,9 +69,24 @@ public class TransactionServiceImpl implements TransactionService {
                         transactionProductEntity.getPrice().multiply(new BigDecimal(transactionProductEntity.getQuantity()))
                     )
             );
-        }
+        }*/
 
-        return transactionDataMapper.toTransactionResponseData(transactionEntity);
+        TransactionEntity finalTransactionEntity = transactionEntity;
+
+        List<TransactionProductEntity> transactionProductEntityList = cartItemEntityList.stream()
+                .map(cartItem -> transactionProductService.createTransactionProduct(finalTransactionEntity, cartItem))
+                .toList();
+
+        BigDecimal totalAmount = transactionProductEntityList.stream()
+                .map(product -> product.getPrice().multiply(BigDecimal.valueOf(product.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        transactionEntity.getTransactionProductEntityList().addAll(transactionProductEntityList);
+        transactionEntity.setTotal(transactionEntity.getTotal().add(totalAmount));
+
+        TransactionEntity savedTransaction = transactionRepository.save(transactionEntity);
+
+        return transactionDataMapper.toTransactionResponseData(savedTransaction);
     }
 
     @Transactional

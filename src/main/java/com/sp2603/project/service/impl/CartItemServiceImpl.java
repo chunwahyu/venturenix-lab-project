@@ -46,7 +46,7 @@ public class CartItemServiceImpl implements CartItemService {
 
         if(quantity <= 0) {
             log.warn("Invalid Quantity: {}", quantity);
-            throw new InvalidQuantityException();
+            throw new InvalidQuantityException(quantity);
         }
 
         Optional<CartItemEntity> optionalCartItemEntity = cartItemRepository.findByProduct_PidAndUser_Uid(pid, userEntity.getUid());
@@ -93,7 +93,7 @@ public class CartItemServiceImpl implements CartItemService {
 
         if(quantity <= 0) {
             log.warn("Update Failed, invalid quantity: {}", quantity);
-            throw new InvalidQuantityException();
+            throw new InvalidQuantityException(quantity);
         }
 
         CartItemEntity cartItemEntity = getEntityByUidAndPid(userEntity.getUid(), pid);

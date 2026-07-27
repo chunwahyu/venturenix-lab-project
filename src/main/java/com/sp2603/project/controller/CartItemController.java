@@ -29,7 +29,7 @@ public class CartItemController {
 
     @PutMapping("/{pid}/{quantity}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void putCartItem(@AuthenticationPrincipal Jwt jwt, @PathVariable @NotNull @PositiveOrZero Integer pid, @PathVariable @NotNull @PositiveOrZero Integer quantity) {
+    public void putCartItem(@AuthenticationPrincipal Jwt jwt, @PathVariable Integer pid, @PathVariable Integer quantity) {
         FirebaseUserData firebaseUserData = userDataMapper.toFirebaseUserData(jwt);
         cartItemService.putCartItem(firebaseUserData, pid, quantity);
     }

@@ -46,7 +46,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ProductResponseDto getProductByPid(@PathVariable(value = "id") @NotNull @Positive Integer pid) {
+    public ProductResponseDto getProductByPid(@PathVariable(value = "id") Integer pid) {
         return productDtoMapper.toProductResponseDto(
                 productService.getProductByPid(pid)
         );
